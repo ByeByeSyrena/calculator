@@ -74,7 +74,6 @@ export default class CalculatorService implements CalculatorServiceType {
         inputValue,
         this.operator
       );
-      console.log("result", result);
       this.displayValue = String(result);
       this.firstOperand = null;
       this.operator = null;
@@ -99,7 +98,6 @@ export default class CalculatorService implements CalculatorServiceType {
 
   // Main handler for key input
   public handleKey = (key: any): void => {
-    console.log("Pressed:", key); // 👈 add this
     if (/^[0-9]$/.test(key) || key === ".") {
       this.inputDigit(key);
     } else if (["+", "-", "*", "/"].includes(key)) {
