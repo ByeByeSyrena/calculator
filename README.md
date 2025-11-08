@@ -35,7 +35,7 @@ src/
 ## 🛠️ Installation
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/calculator.git
+git clone https://github.com/ByeByeSyrena/calculator.git
 
 # Navigate to the project folder
 cd calculator
