@@ -30,17 +30,14 @@ src/
 └── main.tsx # Entry point
 ```
 
+🧰 Tech Stack
 
-## 🧰 Tech Stack
-```
-| Tool | Purpose |
-|------|----------|
-| **React 18** | UI framework |
-| **TypeScript** | Type safety |
-| **Chakra UI** | UI components & theming |
-| **Framer Motion** | Animations |
-| **Vite** | Fast development bundler |
-```
+- React 18
+- TypeScript
+- Chakra UI
+- Framer Motion
+
+Vite
 ---
 
 ## 🛠️ Installation
