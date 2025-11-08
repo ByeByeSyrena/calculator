@@ -30,8 +30,9 @@ src/
 └── main.tsx # Entry point
 ```
 
-```
+
 ## 🧰 Tech Stack
+```
 | Tool | Purpose |
 |------|----------|
 | **React 18** | UI framework |
@@ -39,7 +40,7 @@ src/
 | **Chakra UI** | UI components & theming |
 | **Framer Motion** | Animations |
 | **Vite** | Fast development bundler |
-
+```
 ---
 
 ## 🛠️ Installation
@@ -55,5 +56,6 @@ npm install
 
 # Start the development server
 npm run dev
+```
 
 Then open http://localhost:5173 in your browser 🚀.
