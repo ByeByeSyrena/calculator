@@ -37,7 +37,7 @@ src/
 - Chakra UI
 - Framer Motion
 - Vite
-- 
+  
 ---
 
 ## 🛠️ Installation
