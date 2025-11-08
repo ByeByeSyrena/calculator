@@ -1,111 +1,127 @@
-import type { CalculatorService as CalculatorServiceType } from "../types";
+import type { Dispatch, SetStateAction } from "react";
+import { Operator, Key } from "../types";
 
-export default class CalculatorService implements CalculatorServiceType {
-  private displayValue: string = "0";
+export default class CalculatorService {
+  private displayValue = "0";
+  private expression = "";
   private firstOperand: number | null = null;
-  private waitingForOperand: boolean = false;
-  private operator: string | null = null;
-  private callback: any;
+  private waitingForOperand = false;
+  private operator: Operator | null = null;
+  private setDisplayValue: Dispatch<SetStateAction<string>>;
 
-  constructor(callback: any) {
-    this.callback = callback;
+  private operations: Record<Operator, (a: number, b: number) => number> = {
+    "+": (a, b) => a + b,
+    "-": (a, b) => a - b,
+    "*": (a, b) => a * b,
+    "/": (a, b) => (b !== 0 ? a / b : NaN),
+  };
+
+  constructor(setDisplayValue: Dispatch<SetStateAction<string>>) {
+    this.setDisplayValue = setDisplayValue;
   }
 
-  // Handle digit or dot input
-  public inputDigit(digit: any): void {
+  private updateDisplay() {
+    this.setDisplayValue(this.expression);
+  }
+
+  public inputDigit(digit: string): void {
+    const isDot = digit === ".";
+
     if (this.waitingForOperand) {
-      this.displayValue = digit === "." ? "0." : digit;
+      this.displayValue = isDot ? "0." : digit;
       this.waitingForOperand = false;
     } else {
-      if (digit === "." && this.displayValue.includes(".")) return;
-      this.displayValue =
-        this.displayValue === "0" && digit !== "."
-          ? digit
-          : this.displayValue + digit;
+      if (isDot && this.displayValue.includes(".")) return;
+
+      const isReplacingZero = this.displayValue === "0" && !isDot;
+      this.displayValue = isReplacingZero ? digit : this.displayValue + digit;
     }
-    this.callback(this.displayValue);
+
+    this.expression = this.expression + digit;
+
+    this.updateDisplay();
   }
 
-  // Handle operator input
-  public inputOperator(nextOperator: any): void {
-    const inputValue = parseFloat(this.displayValue);
+  public inputOperator(nextOperator: Operator): void {
+    const currentValue = parseFloat(this.displayValue);
+
     if (this.firstOperand === null) {
-      this.firstOperand = inputValue;
+      this.firstOperand = currentValue;
     } else if (this.operator) {
       const result = this.performOperation(
         this.firstOperand,
-        inputValue,
+        currentValue,
         this.operator
       );
-      this.displayValue = String(result);
       this.firstOperand = result;
-      this.callback(this.displayValue);
+      this.displayValue = this.toString(result);
     }
+
     this.operator = nextOperator;
     this.waitingForOperand = true;
+
+    this.expression = `${this.firstOperand}${nextOperator}`;
+
+    this.updateDisplay();
   }
 
-  // Perform calculation
-  private performOperation(
-    first: number,
-    second: number,
-    operator: string
-  ): number {
-    switch (operator) {
-      case "+":
-        return first + second;
-      case "-":
-        return first - second;
-      case "*":
-        return first * second;
-      case "/":
-        return second !== 0 ? first / second : NaN;
-      default:
-        return second;
-    }
+  private performOperation(a: number, b: number, operator: Operator): number {
+    return this.operations[operator]?.(a, b) ?? b;
   }
 
-  // Handle equals
   public inputEquals(): void {
-    if (this.operator && this.firstOperand !== null) {
-      const inputValue = parseFloat(this.displayValue);
-      const result = this.performOperation(
-        this.firstOperand,
-        inputValue,
-        this.operator
-      );
-      this.displayValue = String(result);
-      this.firstOperand = null;
-      this.operator = null;
-      this.waitingForOperand = false;
-      this.callback(this.displayValue);
-    }
-  }
+    const hasPendingOperation = this.operator && this.firstOperand !== null;
+    if (!hasPendingOperation) return;
 
-  // Clear all state
-  public clear(): void {
-    this.displayValue = "0";
+    const currentValue = parseFloat(this.displayValue);
+    const result = this.performOperation(
+      this.firstOperand,
+      currentValue,
+      this.operator
+    );
+
+    this.displayValue = this.toString(result);
+    this.expression = this.toString(result);
     this.firstOperand = null;
     this.operator = null;
     this.waitingForOperand = false;
-    this.callback(this.displayValue);
+
+    this.updateDisplay();
   }
 
-  // Get current display value
+  public toString(value?: number): string {
+    if (typeof value === "number") {
+      return Number.isFinite(value) ? String(value) : "Error";
+    }
+    return this.displayValue;
+  }
+
+  public clear(): void {
+    this.displayValue = "0";
+    this.expression = "";
+    this.firstOperand = null;
+    this.operator = null;
+    this.waitingForOperand = false;
+    this.updateDisplay();
+  }
+
   public getDisplayValue(): string {
     return this.displayValue;
   }
 
-  // Main handler for key input
-  public handleKey = (key: any): void => {
-    if (/^[0-9]$/.test(key) || key === ".") {
-      this.inputDigit(key);
-    } else if (["+", "-", "*", "/"].includes(key)) {
-      this.inputOperator(key);
-    } else if (key === "=") {
-      this.inputEquals();
-    } else if (key === "C") {
-      this.clear();
-    }
+  public getExpression(): string {
+    return this.expression;
+  }
+
+  public handleKey = (key: Key): void => {
+    const isOperator = ["+", "-", "*", "/"].includes(key);
+    const isIntOrFloat = /^[0-9]$/.test(key) || key === ".";
+    const isEqual = key === "=";
+    const isClear = key === "C";
+
+    if (isIntOrFloat) this.inputDigit(key);
+    else if (isOperator) this.inputOperator(key as Operator);
+    else if (isEqual) this.inputEquals();
+    else if (isClear) this.clear();
   };
 }

@@ -1,10 +1,4 @@
 import { createContext } from "react";
-import { CalculatorService } from "../types";
-
-interface CalculatorContextProps {
-  service: CalculatorService;
-  displayValue: string;
-  setDisplayValue: (value: string) => void;
-}
+import { CalculatorContextProps } from "../types";
 
 export const CalculatorContext = createContext<CalculatorContextProps | undefined>(undefined);

@@ -1,11 +1,13 @@
 import { useState, useEffect, FC } from "react";
-import { withCalculatorProxy } from "./hocs";
-import { ButtonPanel, Display } from "./components";
-import { displayValue } from "./types";
-import { BUTTONS } from "./constants";
-import { useDisplayValue } from "./hooks";
+import { ButtonPanel, Display, CalculatorContainer } from ".";
+import { CalculatorProps, displayValue, Key, } from "../types";
+import { useDisplayValue } from "../hooks";
+import { withCalculatorProxy } from "../hocs";
+import { BUTTONS } from "../constants";
 
-const CoreCalculator: FC<{ proxiedService?: any }> = ({ proxiedService }) => {
+const CoreCalculator: FC<CalculatorProps> = ({
+  proxiedService,
+}) => {
   const [localDisplay, setLocalDisplay] = useState<string>("");
   const displayValue = useDisplayValue();
 
@@ -13,17 +15,17 @@ const CoreCalculator: FC<{ proxiedService?: any }> = ({ proxiedService }) => {
     setLocalDisplay(displayValue);
   }, [displayValue]);
 
-  const handleButtonClick = (key: string) => {
+  const handleButtonClick = (key: Key) => {
     if (proxiedService) {
       proxiedService.service.handleKey(key);
     }
   };
 
   return (
-    <div className="calculator-container">
+    <CalculatorContainer>
       <Display value={localDisplay as displayValue} operand={0} />
       <ButtonPanel buttons={BUTTONS} onButtonClick={handleButtonClick} />
-    </div>
+    </CalculatorContainer>
   );
 };
 

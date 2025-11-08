@@ -12,7 +12,7 @@ export const CalculatorProvider: FC<{ children: ReactNode }> = ({ children }) =>
   }
 
   return (
-    <CalculatorContext.Provider value={{ service: serviceRef.current, displayValue, setDisplayValue }}>
+    <CalculatorContext.Provider value={{ service: serviceRef.current, displayValue }}>
       {children}
     </CalculatorContext.Provider>
   );

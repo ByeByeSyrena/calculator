@@ -1,17 +1,21 @@
-import { ComponentType, useMemo } from "react";
+import { useMemo } from "react";
 import { useCalculatorContext } from "../hooks";
+import type { WithCalculatorProxyComponent } from "../types";
 
-export function withCalculatorProxy<P>(Component: ComponentType<P & { proxiedService: any }>) {
+export function withCalculatorProxy<P>(
+  Component: WithCalculatorProxyComponent<P>
+) {
   return function Wrapped(props: P) {
-    const service = useCalculatorContext();
-    // We need it for getting latest data in CalculatorContext
+    const context = useCalculatorContext();
+
     const proxiedService = useMemo(() => {
-      return new Proxy(service, {
+      return new Proxy(context, {
         get(target, prop, receiver) {
           return Reflect.get(target, prop, receiver);
         },
       });
-    }, [service]);
+    }, [context]);
+
     return <Component {...props} proxiedService={proxiedService} />;
   };
 }

@@ -1,14 +1,20 @@
 import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css";
-import Calculator from "./App";
+import { ChakraProvider, defaultSystem } from "@chakra-ui/react";
 import { CalculatorProvider } from "./providers";
+import { ErrorBoundary } from "./components";
+import Calculator from "./components/Calculator";
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
+
 root.render(
   <StrictMode>
-    <CalculatorProvider>
-      <Calculator />
-    </CalculatorProvider>
+    <ErrorBoundary>
+      <CalculatorProvider>
+        <ChakraProvider value={defaultSystem}>
+          <Calculator />
+        </ChakraProvider>
+      </CalculatorProvider>
+    </ErrorBoundary>
   </StrictMode>
 );
