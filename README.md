@@ -36,8 +36,8 @@ src/
 - TypeScript
 - Chakra UI
 - Framer Motion
-
-Vite
+- Vite
+- 
 ---
 
 ## 🛠️ Installation
