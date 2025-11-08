@@ -16,10 +16,28 @@ const Display: FC<DisplayProps> = ({ value }) => {
       w="320px"
       mx="auto"
       mb={4}
+      maxH="5.5rem"
+      overflowY="auto"
+      overflowX="hidden"
+      css={{
+        scrollbarWidth: "none",
+        msOverflowStyle: "none",
+        "&::-webkit-scrollbar": {
+          display: "none",
+        },
+      }}
+      transition="max-height 0.3s ease"
     >
-      <Text>{value || "0"}</Text>
+      <Text
+        whiteSpace="pre-wrap"
+        wordBreak="break-all"
+        lineHeight="shorter"
+      >
+        {value || "0"}
+      </Text>
     </Box>
   );
 };
 
 export default Display;
+
