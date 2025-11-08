@@ -29,6 +29,7 @@ src/
 ├── types/ # TypeScript types
 └── main.tsx # Entry point
 ```
+---
 
 🧰 Tech Stack
 
