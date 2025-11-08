@@ -31,15 +31,6 @@ src/
 ```
 ---
 
-🧰 Tech Stack
-
-- React 18
-- TypeScript
-- Chakra UI
-- Framer Motion
-- Vite
-  
----
 
 ## 🛠️ Installation
 ```bash
