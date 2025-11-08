@@ -16,6 +16,7 @@ It features smooth button animations, a clean dark theme, and simple arithmetic 
 
 ## 🗂️ Project Structure
 
+```
 src/
 ├── assets/ # Images and static files
 ├── components/ # UI components (Button, Display, etc.)
@@ -27,6 +28,8 @@ src/
 ├── providers / # Custom providers for business logic
 ├── types/ # TypeScript types
 └── main.tsx # Entry point
+```
+
 ```
 ## 🧰 Tech Stack
 | Tool | Purpose |
