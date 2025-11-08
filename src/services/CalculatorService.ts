@@ -1,5 +1,4 @@
-import type { Dispatch, SetStateAction } from "react";
-import { Operator, Key } from "../types";
+import { Operator, Key, Operation, SetStringState } from "../types";
 
 export default class CalculatorService {
   private displayValue = "0";
@@ -7,16 +6,16 @@ export default class CalculatorService {
   private firstOperand: number | null = null;
   private waitingForOperand = false;
   private operator: Operator | null = null;
-  private setDisplayValue: Dispatch<SetStateAction<string>>;
+  private setDisplayValue: SetStringState;
 
-  private operations: Record<Operator, (a: number, b: number) => number> = {
+  private operations: Operation = {
     "+": (a, b) => a + b,
     "-": (a, b) => a - b,
     "*": (a, b) => a * b,
     "/": (a, b) => (b !== 0 ? a / b : NaN),
   };
 
-  constructor(setDisplayValue: Dispatch<SetStateAction<string>>) {
+  constructor(setDisplayValue: SetStringState) {
     this.setDisplayValue = setDisplayValue;
   }
 
