@@ -44,10 +44,10 @@ src/
 ## 🛠️ Installation
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/calculator-vite.git
+git clone https://github.com/your-username/calculator.git
 
 # Navigate to the project folder
-cd calculator-vite
+cd calculator
 
 # Install dependencies
 npm install
