@@ -27,7 +27,7 @@ src/
 ├── services/ # CalculatorService (business logic)
 ├── providers / # Custom providers for business logic
 ├── types/ # TypeScript types
-main.tsx # Entry point
+└──main.tsx # Entry point
 ```
 ---
 
